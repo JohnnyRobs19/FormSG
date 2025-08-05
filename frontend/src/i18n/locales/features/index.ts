@@ -16,6 +16,10 @@ export {
   type Workflow,
 } from './admin-form'
 export { type App } from './app'
+export {
+  type AdminForbiddenError,
+  type AdminForbiddenErrorPageTranslations,
+} from './admin-forbidden-error'
 export { type Common } from './common'
 export { type LandingPage } from './landing-page'
 export { type Login } from './login'

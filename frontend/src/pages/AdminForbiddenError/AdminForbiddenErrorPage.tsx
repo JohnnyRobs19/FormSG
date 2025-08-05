@@ -2,6 +2,8 @@ import { Helmet } from 'react-helmet-async'
 import { Link as ReactLink, useNavigate } from 'react-router-dom'
 import { Box, Flex, Stack, Text } from '@chakra-ui/react'
 
+import { useTranslation } from 'react-i18next'
+
 import { AppFooter } from '~/app/AppFooter'
 
 import { useAuth } from '~contexts/AuthContext'
@@ -16,12 +18,35 @@ export interface AdminForbiddenErrorPageProps {
   message?: string
 }
 
+interface AdminForbiddenErrorPageTranslations {
+  title: string
+  message: string
+  button: {
+    text: {
+      back: string
+    }
+  }
+  buttonLink: {
+    text: {
+      goToDashboard: string
+      login: string
+    }
+  }
+}
+
 export const AdminForbiddenErrorPage = ({
   message,
 }: AdminForbiddenErrorPageProps): JSX.Element => {
   const isMobile = useIsMobile()
   const navigate = useNavigate()
   const { isAuthenticated } = useAuth()
+  const { t } = useTranslation()
+  const translations = t(
+    'features.adminForbiddenError.adminForbiddenErrorPage',
+    {
+      returnObjects: true,
+    },
+  ) as AdminForbiddenErrorPageTranslations
 
   return (
     <>
@@ -57,13 +82,12 @@ export const AdminForbiddenErrorPage = ({
               textAlign="center"
             >
               <Text as="h2" textStyle="h2">
-                You do not have access to this page.
+                {translations.title}
               </Text>
               <Text textStyle="body-1">
                 {isAuthenticated
                   ? message
-                  : message ??
-                    'Log in, or contact the owner of the form for more information.'}
+                  : message ?? translations.message}
               </Text>
             </Stack>
             <Stack
@@ -74,7 +98,7 @@ export const AdminForbiddenErrorPage = ({
               justify="center"
             >
               <Button isFullWidth={isMobile} onClick={() => navigate(-1)}>
-                Back
+                {translations.button.text.back}
               </Button>
 
               <Link
@@ -82,7 +106,9 @@ export const AdminForbiddenErrorPage = ({
                 as={ReactLink}
                 to={isAuthenticated ? DASHBOARD_ROUTE : LOGIN_ROUTE}
               >
-                {isAuthenticated ? 'Go to dashboard' : 'Log in'}
+                {isAuthenticated
+                  ? translations.buttonLink.text.goToDashboard
+                  : translations.buttonLink.text.login}
               </Link>
             </Stack>
           </Stack>
