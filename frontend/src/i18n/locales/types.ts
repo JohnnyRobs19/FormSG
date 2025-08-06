@@ -4,6 +4,7 @@ import { Pagination } from './components'
 import { ValidationConstants } from './constants'
 import {
   App,
+  AdminForbiddenError,
   Common,
   Feedback,
   Fields,
@@ -54,6 +55,7 @@ interface Translation {
         }
       }
       app?: App
+      adminForbiddenError?: AdminForbiddenError
       common?: Common
       landingPage?: LandingPage
       publicForm?: PublicForm
